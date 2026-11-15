@@ -29,3 +29,20 @@ Questions that resolve after the snapshot give a held-out test that nobody, incl
 - Entries without new questions are dropped and reported.
 - No other selection is made.
 - Results are reported whether they confirm or contradict the predictions.
+
+## Addendum, 15 November 2026 (written before any data newer than the 14 November snapshot was downloaded)
+
+The predictions, thresholds and analysis rules above are unchanged. This addendum fixes the implementation and adds secondary analyses, both before any newer data exists.
+
+**Implementation.** The test is `analysis/13_prospective.py --snapshot DIR`, where DIR holds the later snapshot built the same way as `data/` (see the script's docstring). It prints the trigger status and stops until the trigger is met. Then it runs once and writes `DIR/prospective_result.json`; a second run refuses. Details fixed in the script:
+- Each board uses one constant scale shift, so always-0.5 scores 0.25 over the whole board.
+- A frozen entry's new questions are its forecasts in the rounds on the 14 November board that resolve after 14 November.
+- An entry needs both question types among its new questions; other entries are dropped and reported.
+- The random tens of prediction 1 are drawn from frozen entries that have new questions.
+- Prediction 2 also reports the superforecaster median re-scored in the later snapshot. The verdict uses 68.19 as registered.
+
+**Rehearsal.** We rehearsed the procedure on the 14 November snapshot by freezing the board on 1 September 2026. This is exploratory and uses data already analysed (report §4.2). Nine of that board's top ten came from one round (7 June). Most of their drop relative to random entries came from that round as a whole, not from selection within it. A comparison with random entries therefore mixes the two.
+
+**Secondary analyses** (reported next to prediction 1, which is still judged as registered):
+- (a) Round-matched comparison: each top-ten entry's change minus the mean change of the non-top-ten entries of its own round.
+- (b) Round level: the round holding most of the top ten, against rounds whose new questions are of the same kinds (the same dataset horizons, plus markets). Measures: its lead over them on 14 November and on new questions, and the Naive Forecaster's lead in the same rounds.
